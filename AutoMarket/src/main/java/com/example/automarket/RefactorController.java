@@ -8,9 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-
-
-public class RefactorController extends DatabaseHandler {
+//Пример наследования
+public class RefactorController  extends Controller {
 
 
     @FXML
@@ -75,6 +74,27 @@ public class RefactorController extends DatabaseHandler {
     public RefactorController() throws SQLException {
     }
 
+    //Полиморфизм
+    @Override
+    public void buttonRelease() {
+        //Кнопка сохранения
+        buttonSaveref.setOnAction(actionEvent -> {
+            String Category = inputCategoryref.getText().trim();
+            String Model = inputModelref.getText().trim();
+            String Production = inputProductionref.getText().trim();
+            String Stamp = inputStampref.getText().trim();
+
+            if (!Category.equals("") && !Model.equals("") && !Production.equals("") && !Stamp.equals(""))
+                fillDatabase(Category, Model, Production, Stamp);
+            else
+                System.out.println("Заполните все поля!");
+
+        });
+
+
+    }
+
+
     @FXML
     void initialize() throws SQLException, ClassNotFoundException {
 
@@ -102,20 +122,9 @@ public class RefactorController extends DatabaseHandler {
         colProduction.setCellValueFactory(new PropertyValueFactory<ModelTable, String>("Production"));
         colType.setCellValueFactory(new PropertyValueFactory<ModelTable, String>("Type"));
 
-
         //Кнопка сохранения
-            buttonSaveref.setOnAction(actionEvent -> {
-                String Category = inputCategoryref.getText().trim();
-                String Model = inputModelref.getText().trim();
-                String Production = inputProductionref.getText().trim();
-                String Stamp = inputStampref.getText().trim();
 
-            if (!Category.equals("") && !Model.equals("") && !Production.equals("") && !Stamp.equals(""))
-                fillDatabase(Category, Model, Production, Stamp);
-            else
-                System.out.println("Заполните все поля!");
-
-        });
+        buttonRelease();
 
         //Заполнение ComboBox
         comboboxTyperef.getItems().add("Легковой автомобиль");
@@ -129,6 +138,7 @@ public class RefactorController extends DatabaseHandler {
         DatabaseHandler dbHandler = new DatabaseHandler();
 
         //Кнопка сохранения
+
         buttonSaveref.setOnAction(actionEvent -> {
 
             try {

@@ -4,7 +4,8 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DatabaseHandler extends Configs {
+public class DatabaseHandler implements Configs.Config, Configs.Const {
+
     Connection con;
 
     public static Connection getDbConnection() throws ClassNotFoundException, SQLException {
@@ -25,10 +26,10 @@ public class DatabaseHandler extends Configs {
 
 
     public void signUpAuto(String stamp, String model, String category, String number, String type, String production) throws SQLException, ClassNotFoundException {
-        String insert = "INSERT INTO " + Const.AUTO_TABLE + "(" + Const.AUTO_STAMP + "," +
-                Const.AUTO_MODEL + "," + Const.AUTO_CATEGORY + "," +
-                Const.AUTO_NUMBER + "," + Const.AUTO_TYPE + "," +
-                Const.AUTO_PRODUCTION + ")" +
+        String insert = "INSERT INTO " + AUTO_TABLE + "(" + AUTO_STAMP + "," +
+                AUTO_MODEL + "," + AUTO_CATEGORY + "," +
+                AUTO_NUMBER + "," + AUTO_TYPE + "," +
+                AUTO_PRODUCTION + ")" +
                 "VALUE(?,?,?,?,?,?) ";
 
 
@@ -45,12 +46,6 @@ public class DatabaseHandler extends Configs {
        } catch (SQLException | ClassNotFoundException e) {
            e.printStackTrace();
        }
-
-       if (getDbConnection() == null)
-           System.err.println("NO");
-       else
-           System.out.println("Yes");
-
 
     }
 

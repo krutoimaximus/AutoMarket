@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -218,7 +215,6 @@ public class Controller extends DatabaseHandler {
                     pst = connector.getDbConnection().prepareStatement(sql);
                     rs = pst.executeQuery();
                     while (rs.next()) {
-                        System.out.println();
                         oblist.add(new ModelTable(rs.getString("stamp"), rs.getString("category"),
                                 rs.getString("model"), rs.getString("number"), rs.getString("production"), rs.getString("type")));
                     }
@@ -234,11 +230,31 @@ public class Controller extends DatabaseHandler {
         });
     }
 
+    public void buttonRelease() {
+
+        buttonRefactor.setOnAction(actionEvent -> {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("refactor.fxml"));
+
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        });
+
+    }
+
     @FXML
     void initialize() throws SQLException, ClassNotFoundException  {
         searchProduct();
         setCellValueFromTable();
         loadDataFromDatabase();
+        buttonRelease();
 
         //Заполнение таблицы
         colStamp.setCellValueFactory(new PropertyValueFactory<ModelTable, String>("Stamp"));
@@ -248,20 +264,7 @@ public class Controller extends DatabaseHandler {
         colProduction.setCellValueFactory(new PropertyValueFactory<ModelTable, String>("Production"));
         colType.setCellValueFactory(new PropertyValueFactory<ModelTable, String>("Type"));
 
-       buttonRefactor.setOnAction(actionEvent -> {
-           FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(getClass().getResource("refactor.fxml"));
 
-           try {
-               loader.load();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-           Parent root = loader.getRoot();
-           Stage stage = new Stage();
-           stage.setScene(new Scene(root));
-           stage.showAndWait();
-       });
             }
 
 

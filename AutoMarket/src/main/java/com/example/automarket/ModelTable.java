@@ -1,9 +1,7 @@
 package com.example.automarket;
-
-import java.lang.reflect.Type;
-
+// Пример инкапсуляции
 public class ModelTable {
-    String Category, Model, Number, Production, Stamp, Type;
+    private String Category, Model, Number, Production, Stamp, Type;
 
 
     public ModelTable(String stamp, String category, String model, String number, String production, String type) {
